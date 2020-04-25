@@ -1,0 +1,80 @@
+template <typename T>
+class list {
+private:
+    template <typename T>
+    struct node {
+        T data;
+        node<T>* next;
+        
+        node(T data = T(), node<T>* pNext = nullptr) {
+            this->data = data;// this -> посилання на простір struct node
+            next = pNext;
+
+        }
+    };
+
+    int size;
+    // Head Посилання на головний наш стек який зберігає всі дані 
+    node<T>* Head;
+public:
+    list() {
+        size = 0;
+        Head = nullptr;
+    }
+
+    ~list(){}
+
+    void push_back(T data) {
+        if (Head == nullptr) {
+            Head = new node<T>(data);
+        }
+        else {
+            node<T>* current = this->Head;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = new node<T>(data);
+        }
+        ++size;
+    }
+
+    void pop() {
+        node<T>* current = this->Head;
+        for (int i = 1; i < size - 1; i++) {
+            current = current->next;
+        }
+        if (size == 1) {
+            Head = nullptr;
+        }
+
+        node<T>* tmp = current->next;
+        current->next = nullptr;
+        --size;
+        delete tmp;
+    }
+
+    int len() {
+        return size;
+    }
+
+ /*   T& operator[](const int index) {
+        int counter = 0;
+        node<T>* current = this->Head;
+        while (current != nullptr) {
+            if (counter == index) {
+                return current->data;
+            }
+            current = current->next;
+            ++counter;
+        }
+    }*/
+
+    T& value() {
+        node<T>* current = this->Head;
+        while (current->next != nullptr) {
+            current = current->next;
+        }
+        return current->data;
+    }
+
+};
