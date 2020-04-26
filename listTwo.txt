@@ -1,0 +1,91 @@
+class stack {
+private:
+    struct node {
+        int data;
+        node* next, * prev;
+
+        node(int pData = NULL, node* pPrev = nullptr, node* pNext = nullptr) {
+            data = pData;
+            next = pNext;
+            prev = pPrev;
+
+        }
+
+    };
+
+
+    // Голова
+    node* Head;
+    int size;
+
+public:
+    // Конструктор
+    stack(){
+        // Изначально список пуст
+        Head = nullptr;
+        size = 0;
+    }
+
+    // Деструктор
+    ~stack(){
+        delAll();
+    }
+    
+    void push_back(int n) {
+        if (Head == nullptr) {
+            Head = new node(n);
+        }
+        else {
+            node* tmp = this->Head;
+            while (tmp->next != nullptr) {
+                tmp = tmp->next;
+            }
+            tmp->next = new node(n, tmp);
+        }
+
+        
+        ++size;
+    }
+    
+
+
+
+    void pop() {
+        node* tmp = this->Head;
+
+        if (size == 1) {
+            Head = nullptr;
+        }
+        else {
+            for (int i = 1; i < size - 1; i++) {
+                tmp = tmp->next;
+            }
+            tmp->next = nullptr;
+        }
+        --size;
+    }
+
+   
+
+
+    int len() {
+        return size;
+    }
+
+
+    int& value() {
+        node* tmp = this->Head;
+        // Перебираємо Циклом Наші Структури Поки Не Дойдемо До Останньої
+        while (tmp->next != nullptr)
+        {
+            tmp = tmp->next;
+        }
+        return tmp->data;
+    }
+
+    void delAll() {
+        while (size > 0)
+            pop();
+    }
+
+};
